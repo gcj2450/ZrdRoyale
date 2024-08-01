@@ -1,10 +1,8 @@
-﻿using System;
+﻿﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using ClashRoyale.Core;
 using ClashRoyale.Database;
 using ClashRoyale.Extensions;
-using ClashRoyale.Extensions.Utils;
 using ClashRoyale.Logic.Battle;
 using ClashRoyale.Logic.Home.StreamEntry;
 using ClashRoyale.Protocol.Messages.Server;
@@ -94,7 +92,7 @@ namespace ClashRoyale.Logic
         public void LogicClientHome(IByteBuffer packet)
         {
             packet.WriteLong(Home.Id);
-            WebhookUtils.SendNotify(Resources.Configuration.Plr_Webhook, Resources.LangConfiguration.PlrJoined.Replace("%PlayerName", Home.Name),"Player Log");
+
             // Unknown
             {
                 packet.WriteVInt(0);
@@ -122,29 +120,31 @@ namespace ClashRoyale.Logic
             packet.WriteVInt(0);
 
             // Events
-            packet.WriteVInt(1);
+            // By Vitalik
+
+          packet.WriteVInt(1);
             {
-                packet.WriteVInt(1109);
-                packet.WriteScString("2v2 Button");
+             packet.WriteVInt(1109);
+             packet.WriteScString("2v2 Button");
 
-                packet.WriteVInt(8);
-                packet.WriteVInt(TimeUtils.CurrentUnixTimestamp);
-                packet.WriteVInt(1609462800);
-                packet.WriteVInt(TimeUtils.CurrentUnixTimestamp);
+             packet.WriteVInt(8);
+             packet.WriteVInt(TimeUtils.CurrentUnixTimestamp);
+             packet.WriteVInt(2147483647);
+             packet.WriteVInt(TimeUtils.CurrentUnixTimestamp);
 
-                packet.WriteVInt(0);
-                packet.WriteVInt(0);
-                packet.WriteVInt(0);
-                packet.WriteVInt(0);
+             packet.WriteVInt(0);
+             packet.WriteVInt(0);
+             packet.WriteVInt(0);
+             packet.WriteVInt(0);
 
-                packet.WriteVInt(0);
-                packet.WriteVInt(0);
-                packet.WriteVInt(0);
-                packet.WriteVInt(0);
+             packet.WriteVInt(0);
+             packet.WriteVInt(0);
+             packet.WriteVInt(0);
+             packet.WriteVInt(0);
 
-                packet.WriteScString("2v2 Button");
-                packet.WriteScString("{\"HideTimer\":false,\"HidePopupTimer\":false}\"");
-            }
+             packet.WriteScString("2v2 Button");
+             packet.WriteScString("{\"HideTimer\":true,\"HidePopupTimer\":true}\"");
+             }
 
             packet.WriteVInt(0);
             packet.WriteVInt(0);
@@ -187,29 +187,77 @@ namespace ClashRoyale.Logic
 
             packet.WriteVInt(4);
 
-            // chests
-            {
-                for (var i = 0; i < 0; i++)
+            // Chests
+            //By Axia
+            packet.WriteVInt(4);
                 {
-                    packet.WriteVInt(0);
-
+                    packet.WriteVInt(3); //Slot number
                     packet.WriteVInt(19); // Instance Id
-                    packet.WriteVInt(219); // Class Id 
-                    packet.WriteVInt(1); // Unlocked // 8 - unlocking -> timer
+                    packet.WriteVInt(10); // Class Id --> treasure_chests.csv
+                    packet.WriteBoolean(false); // Is unlocked 
+                    packet.WriteVInt(0); // ? But has to be different for every chest
+                    packet.WriteVInt(0);
+                    packet.WriteVInt(0);
+                    packet.WriteVInt(999999); // Card or Gold contained in the chest
+                    packet.WriteVInt(999999); // Card or Gold contained in the chest
+                    packet.WriteVInt(4);
+                    packet.WriteVInt(1);
+                    packet.WriteVInt(1);
 
                     packet.WriteVInt(0);
-                    packet.WriteVInt(0);
-                    packet.WriteVInt(TimeUtils.CurrentUnixTimestamp);
 
-                    packet.WriteBoolean(false); // Claimed
-                    packet.WriteBoolean(false); // New
+
+                    packet.WriteVInt(4); //Slot number
+                    packet.WriteVInt(19); // Instance Id
+                    packet.WriteVInt(10); // Class Id --> treasure_chests.csv
+                    packet.WriteBoolean(false); // Is unlocked 
+                    packet.WriteVInt(1);// ? But has to be different for every chest
+                    packet.WriteVInt(1);
+                    packet.WriteVInt(1);
+                    packet.WriteVInt(999999); // Card or Gold contained in the chest
+                    packet.WriteVInt(999999); // Card or Gold contained in the chest
+                    packet.WriteVInt(4);
+                    packet.WriteVInt(1);
+                    packet.WriteVInt(1);
+
+
+                    packet.WriteVInt(0);
+
+
+                    packet.WriteVInt(6); //Slot number
+                    packet.WriteVInt(19); // Instance Id
+                    packet.WriteVInt(10); // Class Id --> treasure_chests.csv
+                    packet.WriteBoolean(false); // Is unlocked ?
+                    packet.WriteVInt(2);// ? But has to be different for every chest
                     packet.WriteVInt(0);
                     packet.WriteVInt(0);
+                    packet.WriteVInt(999999); // Card or Gold contained in the chest
+                    packet.WriteVInt(999999); // Card or Gold contained in the chest
+                    packet.WriteVInt(4);
+                    packet.WriteVInt(1);
+                    packet.WriteVInt(1);
+
+
                     packet.WriteVInt(0);
+
+
+                    packet.WriteVInt(7); //Slot number
+                    packet.WriteVInt(19); // Instance Id
+                    packet.WriteVInt(10); // Class Id --> treasure_chests.csv
+                    packet.WriteBoolean(false); // Is Unlocked ?
+                    packet.WriteVInt(3);// ? But has to be different for every chest
+                    packet.WriteVInt(0);
+                    packet.WriteVInt(0);
+                    packet.WriteVInt(999999); // Card or Gold contained in the chest
+                    packet.WriteVInt(999999); // Card or Gold contained in the chest
+                    packet.WriteVInt(4);
+                    packet.WriteVInt(1);
+                    packet.WriteVInt(1);
+
+                    packet.WriteVInt(0);
+
+
                 }
-
-                packet.WriteVInt(0);
-            }
 
             // FreeChest Timer
             if (!Home.IsFirstFreeChestAvailable())
@@ -459,41 +507,52 @@ namespace ClashRoyale.Logic
 
             // Profile
             {
-                if (Home.Arena.CurrentArena >= 5)
-                {
-
-                    packet.WriteVInt(Home.Arena.CurrentArena + 2); // Arena
-
-
-                }
-                else
-                {
-
-                    packet.WriteVInt(Home.Arena.CurrentArena + 1); // Arena
-
-                }
-
+                packet.WriteVInt(Home.Arena.CurrentArena + 1); // Arena 
                 packet.WriteVInt(Home.Arena.Trophies); // Trophies 
 
                 packet.WriteVInt(0);
                 packet.WriteVInt(0);
-                packet.WriteVInt(100); // Legendary Trophies
+                packet.WriteVInt(1); // Legendary Trophies
 
-                packet.WriteVInt(0); // Current Season Trophies
-                packet.WriteVInt(0);
-                packet.WriteVInt(0); // Displays near League // maybe never used
+                if (Home.Arena.Trophies >= 4000)
+                {
+                    packet.WriteVInt(Home.Arena.Trophies); // Current Season Trophies
+                    packet.WriteVInt(0); //??
+                    packet.WriteVInt(1); // Current season place in the top
 
-                packet.WriteVInt(0); // Best Season Trophies
-                packet.WriteVInt(0); // Rank
-                packet.WriteVInt(100); // Trophies
+                    packet.WriteVInt(Home.Arena.Trophies); // Best Season Trophies
+                    packet.WriteVInt(Home.Arena.CurrentArena+ 1); // Rank
+                    packet.WriteVInt(0); // Trophies??
+                }
+                else
+                {
+                    packet.WriteVInt(0); // Current Season Trophies
+                    packet.WriteVInt(0); //??
+                    packet.WriteVInt(0); // current season place in the top
+
+                    packet.WriteVInt(0); // Best Season Trophies
+                    packet.WriteVInt(0); // Rank
+                    packet.WriteVInt(0); // Trophies??
+                }
             }
-
             // League
-            packet.WriteVInt(100); // Current Trophies
-            packet.WriteVInt(50); // Past Trophies
-            packet.WriteVInt(1);
-            packet.WriteVInt(0);
-            packet.WriteVInt(0); // set this 1 and it appears on the profile 
+            if (Home.Arena.Trophies >= 4000)
+            {
+                packet.WriteVInt(1); // Place in the top last season
+                packet.WriteVInt(Home.Arena.Trophies); // Trophies last season
+                packet.WriteVInt(0);
+                packet.WriteVInt(1);
+                packet.WriteVInt(1); // set this 1 and it appears on the profile 
+                                
+            }   
+            else
+            {
+                packet.WriteVInt(1); /// Place in the top last season
+                packet.WriteVInt(0); // Trophies last season
+                packet.WriteVInt(0);
+                packet.WriteVInt(0);
+                packet.WriteVInt(0); // set this 1 and it appears on the profile 
+            }
 
             packet.WriteVInt(8);
 
@@ -675,7 +734,6 @@ namespace ClashRoyale.Logic
 
         public async void Save()
         {
-            
 #if DEBUG
             var st = new Stopwatch();
             st.Start();
