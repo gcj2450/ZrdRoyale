@@ -1,7 +1,6 @@
 # ClashRoyale (2017)
 [![clash royale](https://img.shields.io/badge/Clash%20Royale-1.9.2-brightred.svg?style=flat")](https://clash-royale.en.uptodown.com/android/download/1632865)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-![Build Status](https://action-badges.now.sh/Zordon1337/ZrdRoyale)
 
 -----------------------------------------
 ## ✔What was added/changed in this fork✔
@@ -11,7 +10,8 @@
 4. Discord webhook logging(players connections,disconnections, battle logs etc)
 5. fixed bug where player after arena 7 were playing on wrong arena for example player on arena 9 was playing on frozen peak which is map from arena 8
 6. Gems and gold rewards after win.
-7. Now server is more customizable without recompiling it, now you can edit:
+7. fix legendary trophies
+8. Now server is more customizable without recompiling it, now you can edit:
 ``` 
 Minimum Trophies and Maximum Trophies after Win
 Default amount of gems and gold
@@ -42,7 +42,7 @@ The server supports battles, for those a patched client is neccessary.
 for Ubuntu use these commands to set it up:
 ```
 mkdir ClashRoyale
-git clone https://github.com/Zordon1337/ZrdRoyale.git && cd ClashRoyale/src/ClashRoyale
+git clone https://github.com/erder00/zrdroyale && cd ClashRoyale/src/ClashRoyale
 
 dotnet publish
 ```
@@ -73,4 +73,4 @@ It should look like this:
 ```git pull && dotnet publish "ClashRoyale.Battles.csproj" -c Release -o app && dotnet ClashRoyale.Battles/bin/Release/netcoreapp3.1/ClashRoyale.Battles.dll```
 
 ## Need help?
-Contact me on Telegram (https://t.me/TZordon) or open an issue.
+Contact me on Telegram (https://guns.lol/lf) or open an issue.
