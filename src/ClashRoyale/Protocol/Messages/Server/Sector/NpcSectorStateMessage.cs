@@ -3,19 +3,30 @@ using ClashRoyale.Extensions;
 using ClashRoyale.Files;
 using ClashRoyale.Files.CsvLogic;
 using ClashRoyale.Logic;
+using ClashRoyale.Logic.Home.Decks;
 using ClashRoyale.Utilities.Netty;
 using ClashRoyale.Utilities.Utils;
+using ClashRoyale.Logic.Home.Shop;
+using ClashRoyale.Protocol.Messages.Server;
 
 namespace ClashRoyale.Protocol.Messages.Server
 {
     public class NpcSectorStateMessage : PiranhaMessage
     {
+
         public NpcSectorStateMessage(Device device) : base(device)
         {
             Id = 21903;
             device.CurrentState = Device.State.Battle;
             device.LastVisitHome = DateTime.UtcNow;
         }
+
+        public Deck RandomCards()
+        {
+            Deck deck = new Deck();
+            return deck.GenerateRandomDeck();
+        }
+
 
         public override void Encode()
         {
@@ -228,13 +239,16 @@ namespace ClashRoyale.Protocol.Messages.Server
 
             // Trainer
             Writer.WriteHex("FF01");
-            Device.Player.Home.Deck.EncodeAttack(Writer);
+            Deck rdm = RandomCards();
+            rdm.EncodeAttack(Writer);
+
 
             Writer.WriteByte(0);
 
             // Player        
             Writer.WriteHex("FE03");
             Device.Player.Home.Deck.EncodeAttack(Writer);
+
 
             Writer.WriteVInt(0);
             Writer.WriteVInt(0);

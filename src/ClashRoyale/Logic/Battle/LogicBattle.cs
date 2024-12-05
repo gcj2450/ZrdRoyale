@@ -2,24 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
-using ClashRoyale.Core;
 using ClashRoyale.Core.Cluster;
-using ClashRoyale.Database;
 using ClashRoyale.Extensions;
-using ClashRoyale.Extensions.Utils;
 using ClashRoyale.Files;
 using ClashRoyale.Files.CsvLogic;
 using ClashRoyale.Protocol.Messages.Server;
 using ClashRoyale.Utilities.Models.Battle.Replay;
 using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
-using SharpRaven;
 using SharpRaven.Data;
 
 namespace ClashRoyale.Logic.Battle
 {
-    
-
     public class LogicBattle : List<Player>
     {
         /// <summary>
@@ -31,19 +25,10 @@ namespace ClashRoyale.Logic.Battle
         {
             IsFriendly = isFriendly;
             Arena = arena;
-            
-            if (arena >= 8)
-            {
-                Location = Csv.Tables.Get(Csv.Files.Locations)
+            Location = Csv.Tables.Get(Csv.Files.Locations)
                            .GetData<Locations>(Csv.Tables.Get(Csv.Files.Arenas)
-                                .GetDataWithInstanceId<Arenas>(arena).PvpLocation).GetInstanceId()+1;
-            } else
-            {
-                Location = Csv.Tables.Get(Csv.Files.Locations)
-                           .GetData<Locations>(Csv.Tables.Get(Csv.Files.Arenas)
-                                .GetDataWithInstanceId<Arenas>(arena - 1).PvpLocation).GetInstanceId()+1;
-            }
-            
+                               .GetDataWithInstanceId<Arenas>(Arena - 1).PvpLocation).GetInstanceId() +
+                       1;
             Replay.Battle.Location = 15000000 + Location;
 
             BattleTimer.Elapsed += Tick;
@@ -67,18 +52,10 @@ namespace ClashRoyale.Logic.Battle
             Is2V2 = true;
 
             Arena = arena;
-            if (arena >= 7 && arena != 10)
-            {
-                Location = Csv.Tables.Get(Csv.Files.Locations)
+            Location = Csv.Tables.Get(Csv.Files.Locations)
                            .GetData<Locations>(Csv.Tables.Get(Csv.Files.Arenas)
-                                .GetDataWithInstanceId<Arenas>(arena).PvpLocation).GetInstanceId() + 1;
-            }
-            else
-            {
-                Location = Csv.Tables.Get(Csv.Files.Locations)
-                           .GetData<Locations>(Csv.Tables.Get(Csv.Files.Arenas)
-                                .GetDataWithInstanceId<Arenas>(arena - 1).PvpLocation).GetInstanceId() + 1;
-            }
+                               .GetDataWithInstanceId<Arenas>(Arena - 1).TeamVsTeamLocation).GetInstanceId() +
+                       1;
 
             Replay.Battle.Location = 15000000 + Location;
 
@@ -93,9 +70,6 @@ namespace ClashRoyale.Logic.Battle
         public bool IsRunning => BattleTimer.Enabled;
         public bool IsReady => Count >= (Is2V2 ? 4 : 2);
 
-        public static int MinTrophies = 0;
-        public static int MaxTrophy = 0;
-        
         public async void Start()
         {
             if (!IsReady) return;
@@ -106,16 +80,11 @@ namespace ClashRoyale.Logic.Battle
                 if (Resources.Configuration.UseUdp)
                     server = Resources.NodeManager.GetServer();
 
-
-
-                WebhookUtils.SendNotify(Resources.Configuration.BL_Webhook, Resources.LangConfiguration.BattleStarted.Replace("%id", BattleId.ToString()), "Battle Log");
                 //var second = false;
                 foreach (var player in this)
                 {
-
-                    WebhookUtils.SendNotify(Resources.Configuration.BL_Webhook, Resources.LangConfiguration.PlayerJoined.Replace("%id", BattleId.ToString()).Replace("%username", player.Home.Name), "Battle Log");
                     Commands.Add(player.Home.Id, new Queue<byte[]>());
-                    
+
                     // Add decks to replay
                     /*if (!second)
                     {
@@ -128,7 +97,7 @@ namespace ClashRoyale.Logic.Battle
                         Replay.Battle.Avatar1 = player.Home.BattleAvatar;
                         Replay.Battle.Deck0 = player.Home.BattleDeck;
                     }*/
-                    
+
                     if (server != null)
                         await new UdpConnectionInfoMessage(player.Device)
                         {
@@ -153,7 +122,6 @@ namespace ClashRoyale.Logic.Battle
             catch (Exception)
             {
                 Logger.Log("Couldn't start battle", GetType(), ErrorLevel.Error);
-
             }
         }
 
@@ -837,34 +805,27 @@ namespace ClashRoyale.Logic.Battle
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        bool bShouldSendEndMatch = false;
         public async void Tick(object sender, ElapsedEventArgs args)
         {
             #region Tick
 
+            
             try
             {
-                
-                
                 foreach (var player in ToArray())
                     if (player.Device.IsConnected)
                     {
-                        
                         if (player.Device.SecondsSinceLastCommand > 2)
                         {
                             if (BattleSeconds <= 10) continue;
 
                             var rnd = new Random();
-                            var trophies = IsFriendly || Is2V2 ? 0 : rnd.Next(MinTrophies, MaxTrophy);
+                            var trophies = IsFriendly || Is2V2 ? 0 : rnd.Next(25, 35);
                             
                             if (!IsFriendly)
                             {
-                                bShouldSendEndMatch = true;
-                                Console.WriteLine("Given to" + player.Home.Name + " " + Resources.Configuration.gemsreward + " gems");
-                                Console.WriteLine("Given to" + player.Home.Name + " " + Resources.Configuration.goldreward + " golds");
-                                player.Home.Diamonds += Resources.Configuration.gemsreward;
-                                player.Home.Gold += Resources.Configuration.goldreward;
-                                player.Home.AddCrowns(10);
+                                player.Home.AddCrowns(3);
+                                
                                 player.Home.Arena.AddTrophies(trophies);
                             }
 
@@ -888,11 +849,7 @@ namespace ClashRoyale.Logic.Battle
                     {
                         Remove(player);
                     }
-                if(bShouldSendEndMatch)
-                {
-                    WebhookUtils.SendNotify(Resources.Configuration.BL_Webhook, Resources.LangConfiguration.BattleEnded.Replace("%id", BattleId.ToString()), "Battle Log");
-                    bShouldSendEndMatch = false;
-                }
+
                 if (FindIndex(p => p?.Device.SecondsSinceLastCommand < 10) <= -1)
                     Stop();
             }
@@ -941,7 +898,7 @@ namespace ClashRoyale.Logic.Battle
             if (player == null) return;
 
             var rnd = new Random();
-            var trophies = IsFriendly || Is2V2 ? 0 : rnd.Next(MinTrophies, MaxTrophy);
+            var trophies = IsFriendly || Is2V2 ? 0 : rnd.Next(15, 30);
 
             if (!IsFriendly)
             {
@@ -1017,17 +974,17 @@ namespace ClashRoyale.Logic.Battle
 
         public static int[] KingTowerHp =
         {
-            2400, 2568, 2736, 2904, 3096, 3312, 3528, 3768, 4008, 4392, 4824, 5304, 5832
+             2400, 2568, 2736, 2904, 3096, 3312, 3528, 3768, 4008, 4392, 4824, 5304, 5832, 6408
         };
 
         public static int[] DuoKingTowerHp =
         {
-            2880, 3082, 3284, 3485, 3716, 3975, 4234, 4522, 4810, 5271, 5789, 6365, 6999
+             2880, 3082, 3284, 3485, 3716, 3975, 4234, 4522, 4810, 5271, 5789, 6365, 6999, 7690
         };
 
         public static int[] PrincessTowerHp =
         {
-            1400, 1512, 1624, 1750, 1890, 2030, 2184, 2352, 2534, 2786, 3052, 3346, 3668
+            1400, 1512, 1624, 1750, 1890, 2030, 2184, 2352, 2534, 2786, 3052, 3346, 3668, 4032
         };
 
         #endregion

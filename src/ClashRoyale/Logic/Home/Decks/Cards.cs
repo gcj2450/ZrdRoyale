@@ -17,7 +17,7 @@ namespace ClashRoyale.Logic.Home.Decks
         {
             _spellsOther = Csv.Tables.Get(Csv.Files.SpellsOther).GetDatas().Cast<SpellsOther>()
                 .Where(s => !s.NotInUse).ToArray();
-            
+
             _spellsBuildings = Csv.Tables.Get(Csv.Files.SpellsBuildings).GetDatas().Cast<SpellsBuildings>()
                 .Where(s => !s.NotInUse).ToArray();
 
@@ -90,37 +90,37 @@ namespace ClashRoyale.Logic.Home.Decks
             switch (result)
             {
                 case 1:
-                {
-                    var datas = _spellsCharacters.Where(s => s.Rarity == rarity.ToString());
+                    {
+                        var datas = _spellsCharacters.Where(s => s.Rarity == rarity.ToString());
 
-                    var enumerable = datas.ToList();
-                    if (enumerable.ElementAt(random.Next(0, enumerable.Count)) is SpellsCharacters c)
-                        card = new Card(26, c.GetInstanceId(), false);
+                        var enumerable = datas.ToList();
+                        if (enumerable.ElementAt(random.Next(0, enumerable.Count)) is SpellsCharacters c)
+                            card = new Card(26, c.GetInstanceId(), false);
 
-                    break;
-                }
+                        break;
+                    }
 
                 case 2:
-                {
-                    var datas = _spellsOther.Where(s => s.Rarity == rarity.ToString());
+                    {
+                        var datas = _spellsOther.Where(s => s.Rarity == rarity.ToString());
 
-                    var enumerable = datas.ToList();
-                    if (enumerable.ElementAt(random.Next(0, enumerable.Count)) is SpellsOther c)
-                        card = new Card(28, c.GetInstanceId(), false);
+                        var enumerable = datas.ToList();
+                        if (enumerable.ElementAt(random.Next(0, enumerable.Count)) is SpellsOther c)
+                            card = new Card(28, c.GetInstanceId(), false);
 
-                    break;
-                }
+                        break;
+                    }
 
                 case 3:
-                {
-                    var datas = _spellsBuildings.Where(s => s.Rarity == rarity.ToString());
+                    {
+                        var datas = _spellsBuildings.Where(s => s.Rarity == rarity.ToString());
 
-                    var enumerable = datas.ToList();
-                    if (enumerable.ElementAt(random.Next(0, enumerable.Count)) is SpellsBuildings c)
-                        card = new Card(27, c.GetInstanceId(), false);
+                        var enumerable = datas.ToList();
+                        if (enumerable.ElementAt(random.Next(0, enumerable.Count)) is SpellsBuildings c)
+                            card = new Card(27, c.GetInstanceId(), false);
 
-                    break;
-                }
+                        break;
+                    }
             }
 
             return card;
@@ -136,31 +136,51 @@ namespace ClashRoyale.Logic.Home.Decks
 
             var random = new Random();
 
-            switch (random.Next(26, 29))
+            switch (random.Next(23, 29))
             {
                 case 26:
-                {
-                    if (_spellsCharacters.ElementAt(random.Next(0, _spellsCharacters.Length)) is SpellsCharacters c)
-                        card = new Card(26, c.GetInstanceId(), false);
+                    {
+                        if (_spellsCharacters.ElementAt(random.Next(0, _spellsCharacters.Length)) is SpellsCharacters c)
+                            card = new Card(26, c.GetInstanceId(), false);
 
-                    break;
-                }
+                        break;
+                    }
+                case 24:
+                    {
+                        if (_spellsCharacters.ElementAt(random.Next(0, _spellsCharacters.Length)) is SpellsCharacters c)
+                            card = new Card(26, c.GetInstanceId(), false);
 
+                        break;
+                    }
+                case 25:
+                    {
+                        if (_spellsCharacters.ElementAt(random.Next(0, _spellsCharacters.Length)) is SpellsCharacters c)
+                            card = new Card(26, c.GetInstanceId(), false);
+
+                        break;
+                    }
+                case 23:
+                    {
+                        if (_spellsCharacters.ElementAt(random.Next(0, _spellsCharacters.Length)) is SpellsCharacters c)
+                            card = new Card(26, c.GetInstanceId(), false);
+
+                        break;
+                    }
                 case 27:
-                {
-                    if (_spellsBuildings.ElementAt(random.Next(0, _spellsBuildings.Length)) is SpellsBuildings c)
-                        card = new Card(27, c.GetInstanceId(), false);
+                    {
+                        if (_spellsBuildings.ElementAt(random.Next(0, _spellsBuildings.Length)) is SpellsBuildings c)
+                            card = new Card(27, c.GetInstanceId(), false);
 
-                    break;
-                }
+                        break;
+                    }
 
                 case 28:
-                {
-                    if (_spellsOther.ElementAt(random.Next(0, _spellsOther.Length)) is SpellsOther c)
-                        card = new Card(28, c.GetInstanceId(), false);
+                    {
+                        if (_spellsOther.ElementAt(random.Next(0, _spellsOther.Length)) is SpellsOther c)
+                            card = new Card(28, c.GetInstanceId(), false);
 
-                    break;
-                }
+                        break;
+                    }
             }
 
             return card;

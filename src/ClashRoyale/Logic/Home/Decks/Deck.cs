@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ClashRoyale.Logic.Home.Decks.Items;
 using ClashRoyale.Utilities.Netty;
 using DotNetty.Buffers;
 using Newtonsoft.Json;
+using static ClashRoyale.Logic.Home.Decks.Items.Card;
 
 namespace ClashRoyale.Logic.Home.Decks
 {
@@ -168,6 +170,11 @@ namespace ClashRoyale.Logic.Home.Decks
                 UpgradeCard(card, force);
         }
 
+        internal void Clear(int classId, int instanceId, bool v)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Upgrade a card and check if enough cards and gold are available to use or force an upgrade
         /// </summary>
@@ -203,6 +210,75 @@ namespace ClashRoyale.Logic.Home.Decks
         {
             var card = GetCard(classId, instanceId);
             card.IsNew = false;
+        }
+
+
+        public Deck GenerateRandomDeck(bool rdm_deck, bool rdm_lvl)
+        {
+            Deck randomDeck = new Deck();
+            if (rdm_deck == false)
+                return Device.Player.Home.Deck;
+            Random random = new Random();
+
+            for (int i = 0; i < 8; i++)
+            {
+                var card = Cards.Random(); // Utilisez votre méthode Random() pour obtenir une carte aléatoire.
+                if (rdm_lvl == false)
+                {
+                    switch (card.CardRarity)
+                    {
+                        case Rarity.Rare:
+                            {
+                                card.Level = random.Next(1, 10);
+                                break;
+                            }
+                        case Rarity.Epic:
+                            {
+                                card.Level = random.Next(1, 7);
+                                break;
+                            }
+                        case Rarity.Common:
+                            {
+                                card.Level = random.Next(1, 12);
+                                break;
+                            }
+                        case Rarity.Legendary:
+                            {
+                                card.Level = random.Next(1, 4);
+                                break;
+                            }
+                    }
+                }
+                else 
+                {
+                    switch (card.CardRarity)
+                    {
+                        case Rarity.Rare:
+                            {
+                                card.Level = 10;
+                                break;
+                            }
+                        case Rarity.Epic:
+                            {
+                                card.Level = 7;
+                                break;
+                            }
+                        case Rarity.Common:
+                            {
+                                card.Level = 12;
+                                break;
+                            }
+                        case Rarity.Legendary:
+                            {
+                                card.Level = 4;
+                                break;
+                            }
+                    }
+                }
+                randomDeck.Add(card); // Ajoutez la carte au deck aléatoire.
+            }
+
+            return randomDeck;
         }
     }
 }

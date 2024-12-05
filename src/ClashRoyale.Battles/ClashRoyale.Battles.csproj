@@ -14,7 +14,6 @@
   <ItemGroup>
     <PackageReference Include="DotNetty.Common" Version="0.6.0" />
     <PackageReference Include="DotNetty.Handlers" Version="0.6.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NLog" Version="4.6.7" />
     <PackageReference Include="SharpRaven" Version="2.4.0" />
   </ItemGroup>

@@ -8,7 +8,7 @@ namespace ClashRoyale.Protocol.Messages.Server
         public LoginFailedMessage(Device device) : base(device)
         {
             Id = 20103;
-            Version = 4;
+            Version = 8;
         }
 
         public byte ErrorCode { get; set; }
@@ -39,6 +39,7 @@ namespace ClashRoyale.Protocol.Messages.Server
 
         public override void Encode()
         {
+            
             Writer.WriteByte(ErrorCode); // ErrorCode
             Writer.WriteScString(ResourceFingerprintData); // Fingerprint
             Writer.WriteScString(null);
@@ -46,6 +47,8 @@ namespace ClashRoyale.Protocol.Messages.Server
             Writer.WriteScString(UpdateUrl); // Update URL
             Writer.WriteScString(Reason);
             Writer.WriteVInt(SecondsUntilMaintenanceEnds);
+
+            
         }
     }
 }

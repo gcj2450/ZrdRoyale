@@ -69,24 +69,24 @@ namespace ClashRoyale.Logic.Home.Decks.Items
                 switch (ClassId)
                 {
                     case 26:
-                    {
-                        var data = Csv.Tables.Get(Csv.Files.SpellsCharacters)
-                            .GetDataWithInstanceId<SpellsCharacters>(InstanceId);
-                        return Csv.Tables.Get(Csv.Files.Rarities).GetData<Rarities>(data.Rarity);
-                    }
+                        {
+                            var data = Csv.Tables.Get(Csv.Files.SpellsCharacters)
+                                .GetDataWithInstanceId<SpellsCharacters>(InstanceId);
+                            return Csv.Tables.Get(Csv.Files.Rarities).GetData<Rarities>(data.Rarity);
+                        }
 
                     case 27:
-                    {
-                        var data = Csv.Tables.Get(Csv.Files.SpellsBuildings)
-                            .GetDataWithInstanceId<SpellsBuildings>(InstanceId);
-                        return Csv.Tables.Get(Csv.Files.Rarities).GetData<Rarities>(data.Rarity);
-                    }
+                        {
+                            var data = Csv.Tables.Get(Csv.Files.SpellsBuildings)
+                                .GetDataWithInstanceId<SpellsBuildings>(InstanceId);
+                            return Csv.Tables.Get(Csv.Files.Rarities).GetData<Rarities>(data.Rarity);
+                        }
 
                     case 28:
-                    {
-                        var data = Csv.Tables.Get(Csv.Files.SpellsOther).GetDataWithInstanceId<SpellsOther>(InstanceId);
-                        return Csv.Tables.Get(Csv.Files.Rarities).GetData<Rarities>(data.Rarity);
-                    }
+                        {
+                            var data = Csv.Tables.Get(Csv.Files.SpellsOther).GetDataWithInstanceId<SpellsOther>(InstanceId);
+                            return Csv.Tables.Get(Csv.Files.Rarities).GetData<Rarities>(data.Rarity);
+                        }
                 }
 
                 return null;
@@ -97,7 +97,7 @@ namespace ClashRoyale.Logic.Home.Decks.Items
         {
             get
             {
-                var spell = new LogicBattleSpell {Id = GlobalId, Level = Level - 1};
+                var spell = new LogicBattleSpell { Id = GlobalId, Level = Level - 1 };
                 return spell;
             }
         }

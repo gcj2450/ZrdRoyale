@@ -24,20 +24,14 @@ namespace ClashRoyale.Logic.Home.Shop
             Home.ShopDay = (int)DateTime.UtcNow.DayOfWeek;
             Clear();
 
-            /*if (IsEpicSunday)
             {
+                Add(RandomSpell(Card.Rarity.Common));
                 Add(RandomSpell(Card.Rarity.Rare));
                 Add(RandomSpell(Card.Rarity.Epic));
                 Add(RandomSpell(Card.Rarity.Legendary));
-            }
-            else*/
-            {
-                Add(RandomSpell(Card.Rarity.Common));
-                Add(RandomSpell(Card.Rarity.Common));
-                Add(RandomSpell(Card.Rarity.Rare));
-                Add(RandomSpell(Card.Rarity.Rare));
-                Add(RandomSpell(Card.Rarity.Epic));
-                Add(RandomSpell(Card.Rarity.Epic));
+
+
+
             }
         }
 
@@ -93,7 +87,20 @@ namespace ClashRoyale.Logic.Home.Shop
                         price = globals.GetData<Globals>("PRICE_LEGENDARY").NumberValue;
                         limit = globals.GetData<Globals>("BUY_LIMIT_LEGENDARY").NumberValue;
                         break;
-                }
+
+                    case 4:
+                        price = globals.GetData<Globals>("PRICE_LEGENDARY").NumberValue;
+                        limit = globals.GetData<Globals>("BUY_LIMIT_LEGENDARY").NumberValue;
+                        break;
+                    case 5:
+                        price = globals.GetData<Globals>("PRICE_LEGENDARY").NumberValue;
+                        limit = globals.GetData<Globals>("BUY_LIMIT_LEGENDARY").NumberValue;
+                        break;
+                    case 6:
+                        price = globals.GetData<Globals>("PRICE_LEGENDARY").NumberValue;
+                        limit = globals.GetData<Globals>("BUY_LIMIT_LEGENDARY").NumberValue;
+                        break;
+                 }
 
                 var total = 0;
                 var count = amount != 1 ? limit - item.Bought : 1;
@@ -103,7 +110,7 @@ namespace ClashRoyale.Logic.Home.Shop
 
                 if (!Home.UseGold(total)) return;
                 item.Bought += count;
-                Home.Deck.Add(new Card(classId, instanceId, true, count));
+                Home.Deck.Add(new Card(classId, instanceId, true, 10000));
             }
         }
 

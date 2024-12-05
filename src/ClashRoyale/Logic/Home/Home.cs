@@ -33,9 +33,7 @@ namespace ClashRoyale.Logic.Home
             Arena.Home = this;
             Chests.Home = this;
         }
-        public static int DefaultGold = 0;
-        public static int DefaultGems = 0;
-        public static int DefaultLevel = 1;
+
         public Home(long id, string token)
         {
             Id = id;
@@ -72,6 +70,7 @@ namespace ClashRoyale.Logic.Home
         [JsonProperty("fcb_id")] public string FacebookId { get; set; }
         [JsonProperty("totalSessions")] public int TotalSessions { get; set; }
         [JsonProperty("totalPlayTimeSeconds")] public int TotalPlayTimeSeconds { get; set; }
+        [JsonProperty("player_season")] public int PSeason { get; set; }
 
         // Shop
         [JsonProperty("shop_day")] public int ShopDay { get; set; }
@@ -117,7 +116,7 @@ namespace ClashRoyale.Logic.Home
                     ExpPoints = ExpPoints,
                     Arena = 54000000 + Arena.CurrentArena
                 };
-
+                
                 if (!AllianceInfo.HasAlliance) return avatar;
 
                 avatar.ClanName = AllianceInfo.Name;
@@ -146,6 +145,7 @@ namespace ClashRoyale.Logic.Home
             }
         }
 
+       
         /// <summary>
         ///     Buy a resource pack with gems by the given id
         /// </summary>
@@ -163,24 +163,24 @@ namespace ClashRoyale.Logic.Home
                         if (amount > 100000)
                         {
                             if (amount >= 1000000)
-                                diamondCost = 45000;
+                                diamondCost = 1;
                         }
                         else
                         {
-                            diamondCost = 4500;
+                            diamondCost = 4;
                         }
                     else
-                        diamondCost = 500;
+                        diamondCost = 3;
                 else
-                    diamondCost = 60;
+                    diamondCost = 2;
             }
             else
             {
-                diamondCost = 8;
+                diamondCost = 1;
             }
 
 
-            Gold += amount;
+            Gold += 10000 ;
             Diamonds -= diamondCost;
         }
 
@@ -190,7 +190,7 @@ namespace ClashRoyale.Logic.Home
         /// <param name="expPoints"></param>
         public void AddExpPoints(int expPoints)
         {
-            if (ExpLevel >= 13) return;
+            if (ExpLevel >= 14) return;
 
             ExpPoints += expPoints;
 
@@ -248,7 +248,7 @@ namespace ClashRoyale.Logic.Home
         /// <returns></returns>
         public bool IsFirstFreeChestAvailable()
         {
-            return DateTime.UtcNow.Subtract(FreeChestTime).TotalHours >= 4;
+            return DateTime.UtcNow.Subtract(FreeChestTime).TotalMinutes >= 1;
         }
 
         /// <summary>
@@ -257,8 +257,8 @@ namespace ClashRoyale.Logic.Home
         /// <returns></returns>
         public bool IsSecondFreeChestAvailable()
         {
-            return DateTime.UtcNow.Subtract(FreeChestTime).TotalHours >= 8;
-        }
+            return DateTime.UtcNow.Subtract(FreeChestTime).TotalMinutes >= 1;
+        } 
 
         /// <summary>
         ///     Get's the current free chest id

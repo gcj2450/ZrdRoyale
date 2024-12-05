@@ -28,17 +28,17 @@ namespace ClashRoyale.Protocol.Messages.Server
 
                 Writer.WriteVInt(i + 1);
                 Writer.WriteVInt(player.Home.Arena.Trophies);
-                Writer.WriteVInt(200);
+                Writer.WriteVInt(999);
 
-                Writer.WriteVInt(0);
-                Writer.WriteVInt(0);
+                Writer.WriteVInt(1);
+                Writer.WriteVInt(1);
                 Writer.WriteVInt(0);
 
                 player.RankingEntry(Writer);
             }
 
             Writer.WriteInt(0);
-            Writer.WriteInt(TimeUtils.GetSecondsUntilNextMonth);
+            Writer.WriteInt(TimeUtils.LeaderboardTimer);
         }
     }
 }

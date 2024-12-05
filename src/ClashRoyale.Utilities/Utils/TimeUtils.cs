@@ -4,6 +4,8 @@ namespace ClashRoyale.Utilities.Utils
 {
     public class TimeUtils
     {
+        private static readonly int year;
+
         public static int GetSecondsUntilNextMonth
         {
             get
@@ -11,10 +13,10 @@ namespace ClashRoyale.Utilities.Utils
                 var now = DateTime.UtcNow;
 
                 if (now.Month != 12)
-                    return (int) (new DateTime(now.Year, now.Month + 1, 1, now.Hour,
+                    return (int)(new DateTime(now.Year, now.Month + 1, 1, now.Hour,
                                       now.Minute, now.Second) - now).TotalSeconds;
 
-                return (int) (new DateTime(now.Year + 1, 1, 1, now.Hour,
+                return (int)(new DateTime(now.Year + 1, 1, 1, now.Hour,
                                   now.Minute, now.Second) - now).TotalSeconds;
             }
         }
@@ -30,6 +32,6 @@ namespace ClashRoyale.Utilities.Utils
             }
         }
 
-        public static int CurrentUnixTimestamp => (int) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+        public static int CurrentUnixTimestamp => (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
     }
 }

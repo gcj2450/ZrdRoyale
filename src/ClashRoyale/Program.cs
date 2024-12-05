@@ -1,46 +1,38 @@
-using System;
+﻿using System;
 using System.Threading;
-using ClashRoyale.Core;
-using ClashRoyale.Extensions.Utils;
 using ClashRoyale.Utilities.Utils;
 
 namespace ClashRoyale
 {
     public static class Program
     {
+
         private static void Main()
         {
-            Console.Title = "ZrdRoyale";
-            Console.ForegroundColor = ConsoleColor.Green;
-            
+            Console.Title = "ClashRoyale Server Emulator";
             Console.WriteLine(
-                " _____            ______                    __   \n/__  /  _________/ / __ \\____  __  ______ _/ /__  \n  / /  / ___/ __  / /_/ / __ \\/ / / / __ `/ / _ \\ \n / /__/ /  / /_/ / _, _/ /_/ / /_/ / /_/ / /  __/ \n/____/_/   \\__,_/_/ |_|\\____/\\__, /\\__,_/_/\\___/ \n                            /____/               \n");
+                "\n______________             ______ ________                     ______     \r\n__  ____/__  /_____ __________  /____  __ \\__________  _______ ___  /____ \r\n_  /    __  /_  __ `/_  ___/_  __ \\_  /_/ /  __ \\_  / / /  __ `/_  /_  _ \\\r\n/ /___  _  / / /_/ /_(__  )_  / / /  _, _// /_/ /  /_/ // /_/ /_  / /  __/\r\n\\____/  /_/  \\__,_/ /____/ /_/ /_//_/ |_| \\____/_\\__, / \\__,_/ /_/  \\___/ \r\n                                                /____/                    \n\n");
+            Console.ForegroundColor = ConsoleColor.Blue;
             Resources.Initialize();
-            Console.WriteLine("Thanks to Incredible for work on orginal version of CR server");
-            Console.WriteLine("Fork of RetroRoyale by Zordon1337");
-           
-            Console.WriteLine(Resources.Configuration.goldreward);
-            Console.WriteLine(Resources.Configuration.gemsreward);
             WebhookUtils.SendNotify(Resources.Configuration.Srv_Webhook, Resources.LangConfiguration.SrvStarting, "Server Log");
+
             if (ServerUtils.IsLinux())
             {
-                // idk why orginal dev removed this lol
-                Logger.Log("Press any key to shutdown the server.", null);
-                Console.Read();
+                Thread.Sleep(Timeout.Infinite);
+                Console.Beep();
             }
             else
             {
                 Logger.Log("Press any key to shutdown the server.", null);
-                
                 Console.Read();
             }
+
             Shutdown();
             WebhookUtils.SendError(Resources.Configuration.Srv_Webhook, Resources.LangConfiguration.SrvClosing, "Server Log");
         }
 
         public static async void Shutdown()
         {
-            
             Console.WriteLine("Shutting down...");
 
             await Resources.Netty.Shutdown();

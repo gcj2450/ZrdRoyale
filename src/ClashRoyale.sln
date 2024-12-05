@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.5.33530.505
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28809.33
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClashRoyale", "ClashRoyale\ClashRoyale.csproj", "{9D0CA4C8-4661-4D51-AE5D-5EDB16C9C796}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{D6D54D90-8753-44E8-8A0E-850B590D0453}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClashRoyale.CsvConverter", "ClashRoyale.CsvConverter\ClashRoyale.CsvConverter.csproj", "{5640CE8D-2965-4DA2-A20F-79FA2D97DC6A}"
 EndProject
@@ -13,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClashRoyale.Utilities", "Cl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyale.Management", "ClashRoyale.Management\ClashRoyale.Management.csproj", "{88C8CC7B-7860-4E22-A8AD-6A6BCC7B13FD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClashRoyale.Simulator", "ClashRoyale.Simulator\ClashRoyale.Simulator.csproj", "{6132A0FD-CB59-45FF-92B8-51095CAD26FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClashRoyale.Simulator", "ClashRoyale.Simulator\ClashRoyale.Simulator.csproj", "{6132A0FD-CB59-45FF-92B8-51095CAD26FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5640CE8D-2965-4DA2-A20F-79FA2D97DC6A} = {D6D54D90-8753-44E8-8A0E-850B590D0453}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EAFDB0A5-529C-498E-8A90-5389E2B0CF3B}

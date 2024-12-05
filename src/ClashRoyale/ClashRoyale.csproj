@@ -2,14 +2,21 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <LangVersion>7.3</LangVersion>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <ApplicationIcon>clashroyale.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Discord.Webhook" Version="1.0.9" />
+    <Compile Remove="Logic\Home\Chests\Class1.cs" />
+    <Compile Remove="Logic\Home\Chests\Items\ChestSlot.cs" />
+    <Compile Remove="Protocol\Commands\Client\LogicSellChestCommand.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DotNetty.Buffers" Version="0.6.0" />
     <PackageReference Include="DotNetty.Common" Version="0.6.0" />
     <PackageReference Include="DotNetty.Handlers" Version="0.6.0" />
@@ -17,7 +24,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
     <PackageReference Include="MySql.Data" Version="8.0.19" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NLog" Version="4.6.8" />
     <PackageReference Include="SharpRaven" Version="2.4.0" />
     <PackageReference Include="LZMA-SDK" Version="18.1.0" />
@@ -208,9 +215,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="GameAssets\csv_logic\tournament_tiers.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="GameAssets\csv_logic\treasure_chests.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="GameAssets\csv_logic\tutorials_home.csv">

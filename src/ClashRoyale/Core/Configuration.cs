@@ -8,8 +8,7 @@ namespace ClashRoyale.Core
 {
     public class Configuration
     {
-        [JsonIgnore]
-        public static JsonSerializerSettings JsonSettings = new JsonSerializerSettings
+        [JsonIgnore] public static JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
             ObjectCreationHandling = ObjectCreationHandling.Reuse,
             MissingMemberHandling = MissingMemberHandling.Ignore,
@@ -34,8 +33,10 @@ namespace ClashRoyale.Core
         [JsonProperty("mysql_password")] public string MySqlPassword = "";
         [JsonProperty("mysql_server")] public string MySqlServer = "127.0.0.1";
         [JsonProperty("mysql_user")] public string MySqlUserId = "root";
+
         [JsonProperty("patch_url")] public string PatchUrl = "";
         [JsonProperty("sentry_api")] public string SentryApiUrl = "";
+
         [JsonProperty("server_port")] public int ServerPort = 9339;
         [JsonProperty("update_url")] public string UpdateUrl = "https://github.com/retroroyale/ClashRoyale";
         [JsonProperty("use_content_patch")] public bool UseContentPatch;
@@ -58,6 +59,7 @@ namespace ClashRoyale.Core
 
 
 
+        [JsonProperty("use_udp")] public bool UseUdp;
 
         /// <summary>
         ///     Loads the configuration
