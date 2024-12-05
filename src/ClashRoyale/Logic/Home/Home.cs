@@ -33,7 +33,9 @@ namespace ClashRoyale.Logic.Home
             Arena.Home = this;
             Chests.Home = this;
         }
-
+        public static int DefaultGold = 0;
+        public static int DefaultGems = 0;
+        public static int DefaultLevel = 1;
         public Home(long id, string token)
         {
             Id = id;

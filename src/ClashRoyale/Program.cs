@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading;
+using ClashRoyale.Core;
+using ClashRoyale.Extensions.Utils;
 using ClashRoyale.Utilities.Utils;
 
 namespace ClashRoyale

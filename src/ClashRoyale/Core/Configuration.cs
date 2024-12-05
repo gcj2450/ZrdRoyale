@@ -56,11 +56,6 @@ namespace ClashRoyale.Core
         [JsonProperty("GoldToGiveAfterMatch")] public int goldreward;
         [JsonProperty("ErrorLogWebhook")] public string error_webhook;
 
-
-
-
-        [JsonProperty("use_udp")] public bool UseUdp;
-
         /// <summary>
         ///     Loads the configuration
         /// </summary>

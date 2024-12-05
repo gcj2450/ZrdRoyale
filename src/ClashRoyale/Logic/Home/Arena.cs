@@ -17,6 +17,7 @@ namespace ClashRoyale.Logic.Home
 
         [JsonProperty("arena")] public int CurrentArena { get; set; }
         [JsonProperty("trophies")] public int Trophies { get; set; }
+        [JsonProperty("legendary trophies")] public int LTrophies { get; set; }
 
         /// <summary>
         ///     Add trophies and update arena and clan
@@ -115,6 +116,24 @@ namespace ClashRoyale.Logic.Home
             {
                 return null;
             }
+        }
+
+        public void SetLTrophies(int trophies)
+        {
+            while (true)
+            {
+                var data = GetNextArenaData();
+                if (data == null) break;
+
+                if (data.TrophyLimit <= LTrophies + trophies)
+                    CurrentArena = data.Arena;
+                else
+                    break;
+            }
+
+            LTrophies = trophies;
+
+            UpdateClanTrophies();
         }
 
         /// <summary>

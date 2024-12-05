@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using ClashRoyale.Core;
+using ClashRoyale.Extensions.Utils;
+using ClashRoyale.Utilities.Utils;
 using ClashRoyale.Core;
 using ClashRoyale;
 using ClashRoyale.Core.Cluster;
@@ -9,7 +13,7 @@ using ClashRoyale.Database;
 using ClashRoyale.Database.Cache;
 using ClashRoyale.Files;
 using ClashRoyale.Logic.Home.Decks;
-using ClashRoyale.Utilities.Utils;
+
 
 namespace ClashRoyale
 {
@@ -18,6 +22,7 @@ namespace ClashRoyale
         public static Logger Logger { get; set; }
         public static SentryReport Sentry { get; set; }
         public static Configuration Configuration { get; set; }
+        public static LangConfiguration LangConfiguration { get; set; }
         public static PlayerDb PlayerDb { get; set; }
         public static AllianceDb AllianceDb { get; set; }
         public static ObjectCache ObjectCache { get; set; }

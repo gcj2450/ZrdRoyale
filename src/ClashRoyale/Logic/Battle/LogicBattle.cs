@@ -69,6 +69,8 @@ namespace ClashRoyale.Logic.Battle
 
         public bool IsRunning => BattleTimer.Enabled;
         public bool IsReady => Count >= (Is2V2 ? 4 : 2);
+        public static int MaxTrophy = 0;
+        public static int MinTrophies = 0;
 
         public async void Start()
         {

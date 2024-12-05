@@ -212,17 +212,16 @@ namespace ClashRoyale.Logic.Home.Decks
             card.IsNew = false;
         }
 
-
-        public Deck GenerateRandomDeck(bool rdm_deck, bool rdm_lvl)
+        public Deck GenerateRandomDeck(bool rdm_deck = true, bool rdm_lvl = true, Player player = null) // fix later
         {
             Deck randomDeck = new Deck();
             if (rdm_deck == false)
-                return Device.Player.Home.Deck;
+                return player.Home.Deck;
             Random random = new Random();
 
             for (int i = 0; i < 8; i++)
             {
-                var card = Cards.Random(); // Utilisez votre méthode Random() pour obtenir une carte aléatoire.
+                var card = Cards.Random(); // Use your Random() method to get a random map.
                 if (rdm_lvl == false)
                 {
                     switch (card.CardRarity)
@@ -275,7 +274,7 @@ namespace ClashRoyale.Logic.Home.Decks
                             }
                     }
                 }
-                randomDeck.Add(card); // Ajoutez la carte au deck aléatoire.
+                randomDeck.Add(card); // Add the card to the random deck.
             }
 
             return randomDeck;
